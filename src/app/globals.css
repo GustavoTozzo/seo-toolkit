@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Substitui o gatilho padrão do Tailwind (media query) pelo atributo data-theme, que é
+   o que o toggle manual (src/components/ThemeToggle.tsx) e o script anti-flash
+   (src/lib/theme-script.ts) controlam — assim `dark:` sempre reflete a escolha
+   resolvida (explícita ou de sistema), nunca só o SO. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
   --background: #f8faf9;
   --foreground: #0f172a;
@@ -25,19 +31,17 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0f0d;
-    --foreground: #e7edea;
-    --card: #101714;
-    --border: #1f2b26;
-    --muted: #8ea39b;
-    --accent: #2dd4bf;
-    --accent-foreground: #05201c;
-    --code-bg: #0d1512;
-    --stat-good: #0ca30c;
-    --stat-critical: #e66767;
-  }
+:root[data-theme="dark"] {
+  --background: #0a0f0d;
+  --foreground: #e7edea;
+  --card: #101714;
+  --border: #1f2b26;
+  --muted: #8ea39b;
+  --accent: #2dd4bf;
+  --accent-foreground: #05201c;
+  --code-bg: #0d1512;
+  --stat-good: #0ca30c;
+  --stat-critical: #e66767;
 }
 
 body {
@@ -49,4 +53,13 @@ body {
 .shiki,
 .shiki span {
   background-color: var(--code-bg) !important;
+}
+
+/* O shiki gera as duas cores de cada token inline (`color` + `--shiki-dark`), mas quem
+   decide quando usar a variante escura é quem consome o HTML — aqui, o mesmo atributo
+   data-theme que controla o resto do tema. Sem isso, o texto do código fica sempre na
+   cor clara, mesmo com o fundo escuro. */
+:root[data-theme="dark"] .shiki,
+:root[data-theme="dark"] .shiki span {
+  color: var(--shiki-dark) !important;
 }
