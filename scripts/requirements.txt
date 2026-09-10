@@ -1,0 +1,6 @@
+requests>=2.32
+beautifulsoup4>=4.12
+rapidfuzz>=3.9
+unidecode>=1.3
+google-auth>=2.35
+gspread>=6.1

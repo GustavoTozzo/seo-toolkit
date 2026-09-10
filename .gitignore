@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+!**/.env.example
 
 # vercel
 .vercel
@@ -39,3 +41,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# credenciais (nunca commitar contas de serviço reais)
+service-account*.json
+*-service-account.json
+credentials.json
+
+# saídas geradas pelos scripts
+scripts/logs.csv
+scripts/logs/
+scripts/result*.csv
+scripts/result*.zip
+scripts/sitemap_urls.csv
+scripts/urls_redirecionamento*.csv

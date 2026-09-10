@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SEO Toolkit
 
-## Getting Started
+Cinco ferramentas de SEO técnico em Python, nascidas de rotinas reais de trabalho e
+reescritas aqui como scripts de linha de comando, com documentação e um site de
+apresentação em Next.js.
 
-First, run the development server:
+**Site:** https://seo-toolkit-gustavo.vercel.app _(em breve)_
+
+## Ferramentas
+
+| Ferramenta | O que faz | Script |
+| --- | --- | --- |
+| Indexação em massa via GSC | Solicita indexação de várias URLs de uma vez pela Indexing API do Google | [`scripts/gsc_bulk_indexing.py`](scripts/gsc_bulk_indexing.py) |
+| Mapeamento de redirect por URL | Sugere para onde redirecionar cada URL antiga numa migração, por similaridade de slug | [`scripts/url_redirect_mapper.py`](scripts/url_redirect_mapper.py) |
+| Mapeamento de redirect por H1 | Mesma ideia, mas comparando o H1 das páginas — útil quando o padrão de URL muda por completo | [`scripts/h1_redirect_mapper.py`](scripts/h1_redirect_mapper.py) |
+| Extrator de URLs de sitemap | Extrai todas as URLs de um sitemap.xml, inclusive sitemap index | [`scripts/sitemap_url_extractor.py`](scripts/sitemap_url_extractor.py) |
+| Validador de upload de SERPs | Confere em lote se title/description publicados batem com o planejado numa planilha | [`scripts/serp_upload_validator.py`](scripts/serp_upload_validator.py) |
+
+Documentação completa de cada uma (problema que resolve, como funciona, requisitos e
+exemplos de uso) está no site, em `/ferramentas/<slug>`, e é gerada a partir de
+[`src/content/tools.ts`](src/content/tools.ts).
+
+## Rodando os scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd scripts
+pip install -r requirements.txt
+python sitemap_url_extractor.py --url https://exemplo.com.br/sitemap.xml
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Os scripts que dependem de APIs do Google (indexação, planilhas) precisam de uma conta de
+serviço do Google Cloud — veja `--help` em cada script ou a documentação no site para os
+detalhes de escopo/permissão necessários.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Rodando o site localmente
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+pnpm dev
+```
 
-## Learn More
+Next.js 16 (App Router), TypeScript estrito, Tailwind CSS v4. O site lê e destaca
+(syntax highlight) o conteúdo real de `scripts/*.py` em tempo de build — o código exibido
+nunca fica dessincronizado dos arquivos-fonte.
 
-To learn more about Next.js, take a look at the following resources:
+## Origem
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Estes scripts nasceram no dia a dia de SEO técnico, originalmente como notebooks do
+Google Colab, acoplados a uma planilha e site específicos. Para publicá-los aqui, foram:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Generalizados — nenhuma referência a domínio, cliente ou planilha específica ficou no
+  código; tudo é parametrizado via linha de comando.
+- Modernizados — `oauth2client` (descontinuado) trocado por `google-auth`;
+  `fuzzywuzzy`/`difflib` trocados por `rapidfuzz` (mesma lógica, execução em C, bem mais
+  rápida); requisições sequenciais paralelizadas onde fazia sentido (validador de SERPs).
+- Transformados em CLIs de verdade — sem `input()` bloqueante nem dependência do ambiente
+  do Colab, com `argparse`, mensagens de erro claras e saída em CSV/JSON.
 
-## Deploy on Vercel
+## Próximas ferramentas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ideias para expandir o toolkit (ver também a seção "Próximas ferramentas" no site):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Auditor de Core Web Vitals em lote via PageSpeed Insights API
+- Validador de robots.txt e tags canonical
+- Detector de canibalização de palavras-chave via Search Console
+- Verificador de links quebrados e cadeias de redirect
+- Validador de dados estruturados (Schema.org / JSON-LD)
+- Auditor de reciprocidade de hreflang
