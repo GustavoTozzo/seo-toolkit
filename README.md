@@ -1,10 +1,10 @@
 # SEO Toolkit
 
-Cinco ferramentas de SEO técnico em Python, nascidas de rotinas reais de trabalho e
-reescritas aqui como scripts de linha de comando, com documentação e um site de
-apresentação em Next.js.
+Ferramentas de SEO técnico em Python, nascidas de rotinas reais de trabalho e reescritas
+aqui como scripts de linha de comando, com documentação e um site de apresentação em
+Next.js.
 
-**Site:** https://seo-toolkit-gustavo.vercel.app _(em breve)_
+**Site:** https://seo-toolkit-nine.vercel.app
 
 ## Ferramentas
 
@@ -15,10 +15,23 @@ apresentação em Next.js.
 | Mapeamento de redirect por H1 | Mesma ideia, mas comparando o H1 das páginas — útil quando o padrão de URL muda por completo | [`scripts/h1_redirect_mapper.py`](scripts/h1_redirect_mapper.py) |
 | Extrator de URLs de sitemap | Extrai todas as URLs de um sitemap.xml, inclusive sitemap index | [`scripts/sitemap_url_extractor.py`](scripts/sitemap_url_extractor.py) |
 | Validador de upload de SERPs | Confere em lote se title/description publicados batem com o planejado numa planilha | [`scripts/serp_upload_validator.py`](scripts/serp_upload_validator.py) |
+| Validador de robots.txt e canonicals | Cruza robots.txt, canonical e meta robots para achar sinais de indexação contraditórios | [`scripts/robots_canonical_validator.py`](scripts/robots_canonical_validator.py) |
+| Validador de Schema.org / dados estruturados | Extrai JSON-LD e confere campos obrigatórios/recomendados por tipo | [`scripts/structured_data_validator.py`](scripts/structured_data_validator.py) |
 
 Documentação completa de cada uma (problema que resolve, como funciona, requisitos e
 exemplos de uso) está no site, em `/ferramentas/<slug>`, e é gerada a partir de
-[`src/content/tools.ts`](src/content/tools.ts).
+[`src/content/tools.ts`](src/content/tools.ts). Três das sete têm demo interativa ao vivo
+no site (extrator de sitemap, validador de robots/canonical e validador de dados
+estruturados) — as outras dependem de credenciais do Google, então ficam só como código +
+documentação.
+
+## Dashboard de SEO (dados fictícios)
+
+`/dashboard` é um painel de exemplo (cliques/impressões, palavras-chave, páginas
+indexadas, receita simulando GA4) com dados 100% gerados — não está conectado a nenhum
+Search Console ou GA4 real. Existe só para mostrar como a leitura desse tipo de painel
+funcionaria na prática; a página é marcada `noindex` e deixa o aviso de dados fictícios
+logo no topo.
 
 ## Rodando os scripts
 
@@ -61,8 +74,6 @@ Google Colab, acoplados a uma planilha e site específicos. Para publicá-los aq
 Ideias para expandir o toolkit (ver também a seção "Próximas ferramentas" no site):
 
 - Auditor de Core Web Vitals em lote via PageSpeed Insights API
-- Validador de robots.txt e tags canonical
 - Detector de canibalização de palavras-chave via Search Console
 - Verificador de links quebrados e cadeias de redirect
-- Validador de dados estruturados (Schema.org / JSON-LD)
 - Auditor de reciprocidade de hreflang

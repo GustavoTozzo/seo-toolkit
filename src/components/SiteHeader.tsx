@@ -15,6 +15,9 @@ export default function SiteHeader() {
           <Link href="/#ferramentas" className="transition-colors hover:text-foreground">
             Ferramentas
           </Link>
+          <Link href="/dashboard" className="transition-colors hover:text-foreground">
+            Dashboard
+          </Link>
           <a
             href={GITHUB_URL}
             target="_blank"

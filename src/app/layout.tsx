@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://seo-toolkit-gustavo.vercel.app";
+const SITE_URL = "https://seo-toolkit-nine.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | SEO Toolkit",
   },
   description:
-    "Cinco ferramentas de SEO técnico em Python de código aberto: indexação em massa, mapeamento de redirects, extração de sitemap e validação de SERPs.",
+    "Ferramentas de SEO técnico em Python de código aberto: indexação em massa, mapeamento de redirects, extração de sitemap, validação de robots.txt/canonicals e de dados estruturados.",
   openGraph: {
     type: "website",
     locale: "pt_BR",

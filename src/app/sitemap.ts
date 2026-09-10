@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { tools } from "@/content/tools";
 
-const SITE_URL = "https://seo-toolkit-gustavo.vercel.app";
+const SITE_URL = "https://seo-toolkit-nine.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

@@ -1,10 +1,19 @@
 import { notFound } from "next/navigation";
+import type { ComponentType } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getToolBySlug, tools } from "@/content/tools";
 import { readScriptSource } from "@/lib/code";
 import CodeBlock from "@/components/CodeBlock";
 import SitemapDemo from "@/components/SitemapDemo";
+import RobotsCanonicalDemo from "@/components/RobotsCanonicalDemo";
+import StructuredDataDemo from "@/components/StructuredDataDemo";
+
+const DEMOS: Record<string, ComponentType> = {
+  "extrator-sitemap": SitemapDemo,
+  "validador-robots-canonical": RobotsCanonicalDemo,
+  "validador-dados-estruturados": StructuredDataDemo,
+};
 
 const GITHUB_RAW_BASE =
   "https://raw.githubusercontent.com/GustavoTozzo/seo-toolkit/main/scripts";
@@ -98,11 +107,14 @@ export default async function ToolPage(props: PageProps<"/ferramentas/[slug]">) 
         </div>
       </section>
 
-      {tool.hasLiveDemo && (
+      {tool.hasLiveDemo && DEMOS[tool.slug] && (
         <section className="mt-10">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Demo</h2>
           <div className="mt-3">
-            <SitemapDemo />
+            {(() => {
+              const Demo = DEMOS[tool.slug];
+              return <Demo />;
+            })()}
           </div>
         </section>
       )}

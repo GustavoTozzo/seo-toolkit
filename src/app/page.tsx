@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { tools } from "@/content/tools";
 import ToolCard from "@/components/ToolCard";
 
@@ -10,16 +11,16 @@ export default function Home() {
           Ferramentas que nasceram de rotina de SEO técnico
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-muted">
-          Cinco scripts em Python, escritos originalmente para resolver problemas reais do
-          dia a dia de SEO técnico — indexação em massa, migração de sites, rastreamento e
-          QA de conteúdo — reescritos aqui como ferramentas de linha de comando, com
+          Scripts em Python, escritos originalmente para resolver problemas reais do dia a
+          dia de SEO técnico — indexação em massa, migração de sites, rastreamento e QA de
+          conteúdo — reescritos aqui como ferramentas de linha de comando, com
           documentação completa e código aberto.
         </p>
       </section>
 
       <section id="ferramentas" className="mt-16 scroll-mt-16">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-          As 5 ferramentas
+          As ferramentas
         </h2>
         <div className="mt-4 grid gap-5 sm:grid-cols-2">
           {tools.map((tool) => (
@@ -28,7 +29,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-20 rounded-xl border border-border bg-card p-8">
+      <section className="mt-16 rounded-xl border border-border bg-card p-8">
+        <span className="w-fit rounded-full bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent">
+          Demonstração
+        </span>
+        <h2 className="mt-3 text-lg font-semibold">Dashboard de SEO + GA4 (dados fictícios)</h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+          Um exemplo de painel de acompanhamento — cliques e impressões, palavras-chave em
+          destaque, páginas indexadas e receita — com dados 100% simulados, já que não há
+          acesso ao Search Console/GA4 de nenhum site real aqui.
+        </p>
+        <Link href="/dashboard" className="mt-4 inline-block text-sm font-medium text-accent hover:underline">
+          Ver o dashboard →
+        </Link>
+      </section>
+
+      <section className="mt-8 rounded-xl border border-border bg-card p-8">
         <h2 className="text-lg font-semibold">Próximas ferramentas nessa linha</h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
           Ideias para expandir o toolkit, mantendo o mesmo espírito de automatizar tarefas
@@ -41,11 +57,6 @@ export default function Home() {
             num único relatório.
           </li>
           <li className="rounded-lg border border-border p-3">
-            <span className="font-medium text-foreground">Validador de robots.txt e canonicals</span>{" "}
-            — cruza URLs indexáveis com regras de robots.txt e tags canonical para achar
-            bloqueios/conflitos antes que virem perda de indexação.
-          </li>
-          <li className="rounded-lg border border-border p-3">
             <span className="font-medium text-foreground">Detector de canibalização de palavras-chave</span>{" "}
             — cruza dados do Search Console para achar múltiplas URLs competindo pela mesma
             query.
@@ -54,10 +65,6 @@ export default function Home() {
             <span className="font-medium text-foreground">Verificador de links quebrados e cadeias de redirect</span>{" "}
             — rastreia um site inteiro sinalizando 404s e redirects encadeados (redirect
             chains), que dissipam link equity.
-          </li>
-          <li className="rounded-lg border border-border p-3">
-            <span className="font-medium text-foreground">Validador de Schema.org / dados estruturados</span>{" "}
-            — testa JSON-LD contra os schemas esperados por tipo de página, em lote.
           </li>
           <li className="rounded-lg border border-border p-3">
             <span className="font-medium text-foreground">Auditor de hreflang</span>{" "}

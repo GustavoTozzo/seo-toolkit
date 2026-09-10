@@ -182,6 +182,71 @@ export const tools: Tool[] = [
       "O nome da planilha e demais referências de projeto foram removidos do código; tudo é passado por parâmetro.",
     ],
   },
+  {
+    slug: "validador-robots-canonical",
+    title: "Validador de robots.txt e Canonicals",
+    tagline:
+      "Cruza robots.txt, tag canonical e meta robots de uma página para achar sinais de indexação contraditórios antes que virem perda de tráfego.",
+    category: "Indexação",
+    scriptFile: "robots_canonical_validator.py",
+    problem:
+      "É comum uma página acabar com sinais contraditórios sobre se deve ou não ser indexada — bloqueada em robots.txt mas com canonical autorreferente e sem noindex, por exemplo. Cada sinal isolado parece correto; só cruzando os três é que o problema aparece.",
+    howItWorks: [
+      "Busca o robots.txt do domínio (uma vez por domínio, com cache) e verifica se a URL é permitida para o user-agent escolhido.",
+      "Busca a página e extrai a tag <link rel=\"canonical\">, a meta robots e o header HTTP X-Robots-Tag.",
+      "Classifica o canonical como autorreferente, apontando para outra URL, ou ausente.",
+      "Sinaliza combinações contraditórias — ex.: bloqueada em robots.txt mas com todo o resto pedindo indexação.",
+    ],
+    requirements: ["Apenas as URLs a validar — nenhuma credencial necessária."],
+    usage: [
+      {
+        description: "Validar uma URL:",
+        command: "python robots_canonical_validator.py --url https://exemplo.com.br/pagina",
+      },
+      {
+        description: "Validar uma lista, contra um user-agent específico:",
+        command:
+          "python robots_canonical_validator.py --urls-file urls.txt \\\n  --user-agent Googlebot --output result.csv",
+      },
+    ],
+    notes: [
+      "Por padrão o script sempre busca a página (mesmo se bloqueada em robots.txt) para poder reportar o restante dos sinais — é uma ferramenta de auditoria do próprio site, não um crawler de terceiros.",
+      "O parser de robots.txt (tanto no script Python quanto na demo do site) é uma implementação própria, e não o urllib.robotparser da stdlib do Python — na prática, a stdlib descarta silenciosamente qualquer bloco \"User-agent: *\" além do primeiro (está no próprio código-fonte dela, comentário \"the first default entry wins\"). Vários sites reais (ex.: wordpress.org) têm mais de um bloco \"User-agent: *\" não contíguo no robots.txt, e regras nesses blocos extras simplesmente somem da validação com o robotparser puro — foi um bug real, encontrado e corrigido durante a construção desta ferramenta, não uma escolha de design.",
+    ],
+    hasLiveDemo: true,
+  },
+  {
+    slug: "validador-dados-estruturados",
+    title: "Validador de Schema.org / Dados Estruturados",
+    tagline:
+      "Extrai os blocos JSON-LD de uma página e confere campos obrigatórios/recomendados para os tipos mais comuns em SEO, antes de submeter ao Rich Results Test.",
+    category: "QA de conteúdo",
+    scriptFile: "structured_data_validator.py",
+    problem:
+      "Dados estruturados incompletos não quebram a página, então passam despercebidos com facilidade — mas são exatamente o que decide se um rich result aparece ou não na SERP. Conferir manualmente, tipo por tipo, não escala.",
+    howItWorks: [
+      "Busca a página e extrai todos os blocos <script type=\"application/ld+json\">, incluindo uso de @graph.",
+      "Identifica o @type de cada bloco (Product, Article, FAQPage, LocalBusiness, Recipe, Event, etc.).",
+      "Compara contra um checklist prático de campos obrigatórios e recomendados por tipo.",
+      "Reporta, por bloco, o que falta — sem pretender substituir o Rich Results Test oficial do Google, só filtrar omissões óbvias antes de chegar lá.",
+    ],
+    requirements: ["Apenas as URLs a validar — nenhuma credencial necessária."],
+    usage: [
+      {
+        description: "Validar uma URL:",
+        command: "python structured_data_validator.py --url https://exemplo.com.br/produto/123",
+      },
+      {
+        description: "Validar uma lista de URLs:",
+        command: "python structured_data_validator.py --urls-file urls.txt --output result.csv",
+      },
+    ],
+    notes: [
+      "O checklist cobre os tipos mais comuns em SEO de e-commerce/conteúdo (Product, Article, FAQPage, BreadcrumbList, Organization, LocalBusiness, Recipe, Event, Review, VideoObject) — tipos fora dessa lista são reportados como encontrados, mas sem checagem de campos.",
+      "Campos aninhados (ex.: offers.price) são checados pela presença da chave de topo (offers), não do valor aninhado — é um filtro rápido, não uma validação completa da especificação.",
+    ],
+    hasLiveDemo: true,
+  },
 ];
 
 export function getToolBySlug(slug: string): Tool | undefined {
